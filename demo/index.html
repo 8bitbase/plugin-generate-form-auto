@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            DEMO USE PLUGIN GENERATE FORM AUTOMATION
+        </title>
+        <!-- Latest compiled and minified CSS -->
+        <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="row">
+                <h1>HOW TO USE PLUGIN GENERATE FORM AUTOMATION</h1>
+                <hr/>
+                <h3>
+                    FORM 0: No data & show default config
+                </h3>
+                <div class="col-md-12 form-horizontal">
+                    <div class="col-sm-12" id="award-list-0"></div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <h3>
+                    FORM 1: No data & custom config
+                </h3>
+                <div class="col-md-12 form-horizontal">
+                    <div class="col-sm-12" id="award-list-1"></div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <blockquote>
+                        <a class="btn btn-default" onclick="$('#document_form1').show();">Show document</a> | <a onclick="$('#document_form1').hide();">Hide document</a>
+                    </blockquote>
+                </div>
+                <div class="col-md-12" id="document_form1" style="display: none;">
+                    <strong>HTML</strong>
+                    <figure class="highlight">
+                        <pre>
+&lt;div class="col-sm-12" id="award-list-1"&gt;&lt;/div&gt;
+                        </pre>
+                    </figure>
+
+                    <strong>TEMPLATE JS</strong>
+                    <figure class="highlight">
+                        <pre>
+&lt;div class="form-group"&gt;
+    &lt;div class="col-sm-2"&gt;
+        &lt;label class="control-label lcd-current-row"&gt;award&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-5"&gt;
+        &lt;input class="form-control" name="award[]quantity[]" type="number" maxlength="11" min="1" max="99999999999" value="" /&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-1"&gt;
+        &lt;label class="control-label"&gt; unit &lt;/label&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                        </pre>
+                    </figure>
+
+                    <strong>CONFIG JS</strong>
+                    <figure class="highlight">
+                        <pre>
+// Setup template
+var templateAward = $("#template_award").html();
+
+// Use template make form auto - no data
+$("#award-list-1").makeInputForm({
+    "button_add": {
+        "active": true,
+        "lable": "+ Add award (max 5 row)"
+    },
+    "container_id": "list-item-1", // distinct container
+    "minRow": "1",
+    "maxRow": "5",
+    "template": "award",
+    "elements": templateAward
+});
+                        </pre>
+                    </figure>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <h3>
+                    FORM 2: Render with data & custom config
+                </h3>
+                <div class="col-md-12 form-horizontal">
+                    <div class="col-sm-12" id="award-list-2"></div>
+                    <input id="data_award" type="hidden" value='[{"quantity":3},{"quantity":5},{"quantity":10}]'/>
+                </div>
+
+                <div class="col-md-12">
+                    <blockquote>
+                        <a class="btn btn-default" onclick="$('#document_form2').show();">Show documents</a> | <a onclick="$('#document_form2').hide();">Hide documents</a>
+                    </blockquote>
+                </div>
+                <div class="col-md-12" id="document_form2" style="display: none;">
+                    <strong>HTML</strong>
+                    <figure class="highlight">
+                        <pre>
+&lt;div class="col-sm-12" id="award-list-2"&gt;&lt;/div&gt;
+&lt;input id="data_award" type="hidden" value='[{"rank":1,"quantity":3},{"rank":2,"quantity":5},{"rank":3,"quantity":10}]'/&gt;
+                        </pre>
+                    </figure>
+
+                    <strong>TEMPLATE JS</strong>
+                    <figure class="highlight">
+                        <pre>
+&lt;div class="form-group"&gt;
+    &lt;div class="col-sm-2"&gt;
+        &lt;label class="control-label lcd-current-row"&gt;award&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-5"&gt;
+        &lt;input class="form-control" name="award[]quantity[]" type="number" maxlength="11" min="1" max="99999999999" value="" /&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-1"&gt;
+        &lt;label class="control-label"&gt; unit &lt;/label&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                        </pre>
+                    </figure>
+
+                    <strong>CONFIG JS</strong>
+                    <figure class="highlight">
+                        <pre>
+// Setup template
+var templateAward = $("#template_award").html();
+
+// Default value render
+if ($('#data_award').val() != null) {
+    var data_award = JSON.parse($('#data_award').val());
+    defaultAward = {"value": data_award};
+}
+
+// Use template make form auto - data default
+$("#award-list-2").makeInputForm({
+    "button_add": {
+        "active": true,
+        "lable": "+ Add award (max 10 row)"
+    },
+    "container_id": "list-item-2", // distinct container
+    "minRow": "1",
+    "maxRow": "10",
+    "data": defaultAward,
+    "mapData": {'quantity': 'award[]quantity[]'},
+    "template": "award",
+    "elements": templateAward
+});
+                        </pre>
+                    </figure>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="../js/plugin-generate-form-automation.js"></script>
+        <script id="template_award" type="text">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label class="control-label"><span class="lcd-current-row"></span> award</label>
+                </div>
+                <div class="col-sm-5">
+                    <input class="form-control" name="award[]quantity[]" type="number" maxlength="11" min="1" max="99999999999" value="" />
+                </div>
+                <div class="col-sm-1">
+                    <label class="control-label"> unit </label>
+                </div>
+            </div>
+        </script>
+        <script type="text/javascript">
+            // Setup template
+            var templateAward = $("#template_award").html();
+            // Use default config
+            $("#award-list-0").makeInputForm();
+
+            // Use template make form auto - no data
+            $("#award-list-1").makeInputForm({
+                "button_add": {
+                    "active": true,
+                    "lable": "+ Add award (max 5 row)"
+                },
+                // "container_id": "list-item-1", // distinct container
+                "minRow": "1",
+                "maxRow": "5",
+                "elements": templateAward
+            });
+
+            // Default value render
+            if ($('#data_award').val() != null) {
+                var data_award = JSON.parse($('#data_award').val());
+                defaultAward = {"value": data_award};
+            }
+
+            // Use template make form auto - data default
+            $("#award-list-2").makeInputForm({
+                "button_add": {
+                    "active": true,
+                    "lable": "+ Add award (max 10 row)"
+                },
+                "container_id": "list-item-2", // distinct container
+                "minRow": "1",
+                "maxRow": "10",
+                "data": defaultAward,
+                "mapData": {'quantity': 'award[]quantity[]'},
+                "elements": templateAward
+            });
+        </script>
+    </body>
+</html>
